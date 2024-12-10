@@ -36,5 +36,6 @@ namespace Ask_Me_Now.Models
 
         [NotMapped]
         public IEnumerable<SelectListItem> Categ { get; set; }
+        public string? UserId { get; set; }
     }
 }

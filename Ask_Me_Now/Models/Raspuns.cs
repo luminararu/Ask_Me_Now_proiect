@@ -26,6 +26,7 @@ namespace Ask_Me_Now.Models
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina un numar de dislike-uri!")]
         public int Dislikes { get; set; }
-
+        public DateTime Data { get; set; }
+        public string? UserId { get; set; }
     }
 }

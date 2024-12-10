@@ -53,17 +53,18 @@ namespace Ask_Me_Now.Controllers
             [HttpPost]
             public ActionResult New(Categorie cat)
             {
-                if (ModelState.IsValid)
+                if (string.IsNullOrEmpty(cat.Denumire))
                 {
-                    db.Categorii.Add(cat);
-                    db.SaveChanges();
-                    TempData["message"] = "Categoria a fost adaugata cu succes!";
-                    return RedirectToAction("Index");
+                    ModelState.AddModelError(string.Empty, "Continutul trebuie completat!");
                 }
                 else
-                {
-                    return View(cat);
+                {   
+                db.Categorii.Add(cat);
+                    db.SaveChanges();
+                    TempData["message"] = "Categoria a fost adaugata cu succes!";
+                return RedirectToAction("Index");
                 }
+                return View(cat);
             }
 
             public ActionResult Edit(int id)
@@ -72,24 +73,23 @@ namespace Ask_Me_Now.Controllers
                 return View(categorie);
             }
 
-            [HttpPost]
-            public ActionResult Edit(int id, Categorie categorieReq) 
+        [HttpPost]
+        public ActionResult Edit(int id, Categorie categorieReq)
+        {
+            Categorie categorie = db.Categorii.Find(id);
+            if (string.IsNullOrEmpty(categorieReq.Denumire))
             {
-                Categorie categorie = db.Categorii.Find(id);
+                ModelState.AddModelError(string.Empty, "Continutul trebuie completat!");
+            }
+            else
+            {
+                categorie.Denumire = categorieReq.Denumire;
+                db.SaveChanges();
+                TempData["message"] = "Categoria a fost modificata cu succes!";
+                return RedirectToAction("Index");
 
-                if (ModelState.IsValid)
-                {
-
-                    categorie.Denumire = categorieReq.Denumire;
-                    categorie.NumarIntrebari = categorieReq.NumarIntrebari;
-                    db.SaveChanges();
-                    TempData["message"] = "Categoria a fost modificata cu succes!";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(categorieReq);
-                }
+            }
+            return View(categorieReq);
             }
 
             [HttpPost]
