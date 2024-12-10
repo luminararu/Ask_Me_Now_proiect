@@ -37,24 +37,7 @@ namespace Ask_Me_Now.Models
                 var hasher = new PasswordHasher<Utilizator>();
                 var categorie1 = context.Categorii.FirstOrDefault(c => c.Denumire == "Sanatate");
                 var categorie2 = context.Categorii.FirstOrDefault(c => c.Denumire == "Vacante");
-                // CREAREA PROFILURILOR IN BD PENTRU A PUTEA CREA USERII
-                var profil1 = new Profil
-                {
-                    Nume = "RoxyRoxette",
-                    Email = "roxana_a@gmail.com",
-                    Descriere = "Buna! Eu sunt Roxana!",
-                    CategoriePreferata = "Sanatate",
-                    Categorie=categorie1
-                };
-                var profil2 = new Profil
-                {
-                    Nume = "Coryna_Cory",
-                    Email = "corina_u@gmail.com",
-                    Descriere = "Buna tuturor! Eu sunt Corina si imi place sa calatoresc!",
-                    CategoriePreferata = "Vacante",
-                    Categorie=categorie2
-                };
-                context.Profiluri.AddRange(profil1, profil2);
+                
                 context.SaveChanges();
                 // CREAREA USERILOR IN BD
                 // Se creeaza cate un user pentru fiecare rol
@@ -67,8 +50,7 @@ namespace Ask_Me_Now.Models
                     NormalizedEmail = "ROXANA_A@GMAIL.COM",
                     Email = "roxana_a@gmail.com",
                     NormalizedUserName = "ROXANA POPESCU",
-                    PasswordHash = hasher.HashPassword(null, "Admin1!"),
-                    ProfilId = profil1.ProfilId
+                    PasswordHash = hasher.HashPassword(null, "Admin1!")
                 },
                 new Utilizator
                 {
@@ -78,8 +60,7 @@ namespace Ask_Me_Now.Models
                     NormalizedEmail = "CORINA_U@GMAIL.COM",
                     Email = "corina_u@gmail.com",
                     NormalizedUserName = "CORINA IONESCU",
-                    PasswordHash = hasher.HashPassword(null, "User1!"),
-                    ProfilId = profil2.ProfilId
+                    PasswordHash = hasher.HashPassword(null, "User1!")
                 });
                 context.SaveChanges();
 

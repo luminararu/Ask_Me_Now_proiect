@@ -10,8 +10,8 @@ namespace Ask_Me_Now.Models
         public int RaspunsId { get; set; }
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina un profil asociat!")]
-        public int ProfilId { get; set; }
-        public Profil Profil { get; set; }
+        public int Nume{ get; set; }
+        public Utilizator Utilizator { get; set; }
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina o intrebare asociata!")]
         public int IntrebareId { get; set; }
@@ -26,9 +26,6 @@ namespace Ask_Me_Now.Models
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina un numar de dislike-uri!")]
         public int Dislikes { get; set; }
-
-        //un raspuns apartine unui singur utilizator
-        public virtual Utilizator Utilizator { get; set; }
 
     }
 }

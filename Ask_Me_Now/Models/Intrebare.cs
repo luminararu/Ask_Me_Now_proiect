@@ -16,8 +16,8 @@ namespace Ask_Me_Now.Models
         public Categorie Categorie { get; set; }
 
         [Required(ErrorMessage = "O intrebare trebuie sa apartina unui profil!")]
-        public int ProfilId { get; set; }
-        public Profil Profil { get; set; }
+        public int Nume { get; set; }
+        public Utilizator Utilizator { get; set; }
 
         public DateTime Data {  get; set; }
 
@@ -36,8 +36,5 @@ namespace Ask_Me_Now.Models
 
         [NotMapped]
         public IEnumerable<SelectListItem> Categ { get; set; }
-
-        //o intrebare apartine unui singur utilizator
-        public virtual Utilizator Utilizator { get; set; }
     }
 }
