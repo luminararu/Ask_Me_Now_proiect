@@ -1,0 +1,28 @@
+﻿@model Ask_Me_Now.Models.Profil
+@{
+    ViewBag.Title = "AFISARE PROFIL";
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+
+<p>@Model.Nume</p>
+
+
+<form method="post" asp-controller="Profil" asp-action="Delete"
+      asp-route-id="@Model.ProfilId">
+
+    <button class="btn btn-danger" type="submit">Stergeti profilul</button>
+
+</form>
+
+<br />
+
+<a class="btn alert-success" href="/Home/Index/">Inapoi la pagina principala</a>
+
+<br />
+<hr />
+<br />
+

@@ -1,0 +1,27 @@
+﻿@model Ask_Me_Now.Models.Categorie
+
+
+@{
+    ViewBag.Title = "EDITARE CATEGORIE";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<form asp-action="Edit" asp-controller="Categorii" asp-route-id="@Model.CategorieId" method="post">
+
+    <div class="form-group">
+        <label asp-for="Denumire" class="form-label">Denumire categorie</label>
+        <br />
+        <input asp-for="Denumire" class="form-control" />
+        <span asp-validation-for="Denumire" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <button class="btn btn-success" type="submit">Modificati categoria</button>
+
+</form>
+
+
+

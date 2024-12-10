@@ -1,0 +1,28 @@
+﻿@model Ask_Me_Now.Models.Categorie
+@{
+    ViewBag.Title = "AFISARE CATEGORIE";
+}
+
+
+<h2>@ViewBag.Title</h2>
+
+<br />
+
+<p>@Model.Denumire</p>
+
+
+<form method="post" asp-controller="Categorii" asp-action="Delete"
+      asp-route-id="@Model.CategorieId">
+
+    <button class="btn btn-danger" type="submit">Stergeti categoria</button>
+
+</form>
+
+<br />
+
+<a class="btn alert-success" href="/Categorii/Index/">Afisati toate categoriile</a>
+
+<br />
+<hr />
+<br />
+

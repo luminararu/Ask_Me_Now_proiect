@@ -1,0 +1,57 @@
+﻿@model Ask_Me_Now.Models.Profil
+
+
+<h2 class="text-center mt-5">ADAUGARE PROFIL</h2>
+
+<br />
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-6 offset-3">
+
+            <form method="post" asp-action="New" asp-controller="Profiluri">
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Nume" class="form-label">Numele profilului</label>
+                    <br />
+                    <input asp-for="Nume" class="form-control" />
+                    <span asp-validation-for="Nume" class="text-danger"></span>
+                    <br /><br />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Email-ul asociat profilului</label>
+                    <br />
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <br /><br />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Descriere" class="form-label">Descrierea asociata profilului</label>
+                    <br />
+                    <textarea asp-for="Descriere" class="form-control summernote"></textarea>
+                    <span asp-validation-for="Descriere" class="text-danger"></span>
+                    <br /><br />
+                </div>
+
+                <div class="form-group">
+                    <label for="CategoriePreferata">Selectati categoria preferata</label>
+                    <br />
+                    <select asp-for="CategoriePreferata" asp-items="Model.Categ" class="form-control">
+                        <option value="">Selectati categoria</option>
+                    </select>
+                    <span asp-validation-for="CategoriePreferata" class="text-danger"></span>
+                    <br />
+                </div>
+                <br />
+                <button class="btn btn-success" type="submit">Adaugati profilul</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
