@@ -10,7 +10,7 @@ namespace Ask_Me_Now.Models
         public int RaspunsId { get; set; }
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina un profil asociat!")]
-        public int Nume{ get; set; }
+        public string Nume{ get; set; }
         public Utilizator Utilizator { get; set; }
 
         [Required(ErrorMessage = "Un raspuns trebuie sa contina o intrebare asociata!")]

@@ -16,7 +16,7 @@ namespace Ask_Me_Now.Models
         public Categorie Categorie { get; set; }
 
         [Required(ErrorMessage = "O intrebare trebuie sa apartina unui profil!")]
-        public int Nume { get; set; }
+        public string Nume { get; set; }
         public Utilizator Utilizator { get; set; }
 
         public DateTime Data {  get; set; }

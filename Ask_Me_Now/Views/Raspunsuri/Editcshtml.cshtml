@@ -1,0 +1,23 @@
+﻿@model Ask_Me_Now.Models.Raspuns
+
+
+<h2>Editare comentariu</h2>
+<br />
+
+
+<form asp-action="Edit" asp-controller="Raspunsuri" asp-route-id="@Model.RaspunsId" method="post">
+
+    <div class="form-group">
+        <label asp-for="Continut" class="form-label">Conținut raspuns</label>
+        <br />
+        <textarea asp-for="Continut" class="form-control"></textarea>
+        <span asp-validation-for="Continut" class="text-danger"></span>
+    </div>
+
+    <br /><br />
+
+    <button class="btn btn-primary" type="submit">Editează raspunsul</button>
+
+</form>
+
+

@@ -1,0 +1,131 @@
+﻿@model Ask_Me_Now.Models.Intrebare
+
+
+@* Afisarea unui articol impreuna cu categoria din care face *@
+
+
+@if (TempData["message"] != null)
+{
+    <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
+        @ViewBag.Message
+    </div>
+}
+
+<br />
+
+<div class="card">
+
+    <partial name="IntrebareInfo" model="Model"></partial>
+
+    @if ((ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent)
+    || ViewBag.EsteAdmin == true)
+    {
+        <div class="d-flex flex-row justify-content-between">
+
+            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editeaza articol</a>
+
+            <form method="post" asp-controller="Intrebari" asp-action="Delete" asp-route-id="@Model.IntrebareId">
+
+                <button class="btn btn-danger" type="submit">Sterge intrebarea</button>
+
+            </form>
+
+        </div>
+    }
+
+
+</div>
+
+<br />
+<br />
+
+@* Afisare intrebari impreuna cu butoanele de editare si stergere *@
+
+@foreach (var comm in Model.Raspunsuri)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+
+            <div class="col-md-8">
+
+                <div>
+
+                    <p>@comm.Continut</p>
+                    <small>@comm.Data</small>
+                    <strong><i class="bi bi-person"> @comm.Nume</i></strong>
+
+                </div>
+                <br>
+
+                @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin == true)
+                {
+                    <div class="d-flex">
+                        <div>
+                            <a class="btn btn-outline-primary" asp-controller="Raspunsuri" asp-action="Edit" asp-route-id="@comm.RaspunsId">
+                                <i class="bi bi-pencil-square"></i> Editeaza
+                            </a>
+
+                        </div>
+                        <div>
+                            <form method="post" asp-controller="Raspunsuri" asp-action="Delete" asp-route-id="@comm.RaspunsId">
+
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <br />
+            </div>
+
+            <div class="col-md-2"></div>
+
+        </div>
+
+    </div>
+}
+
+
+@* Afisarea formularului in care se poate adauga un comentariu *@
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-md-2"></div>
+
+        <div class="col-md-8">
+
+            <div class="card">
+
+                <form method="post" asp-controller="Intrebari" asp-action="Show">
+
+                    <div class="card-body">
+
+                        <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
+
+                        <label>Continut comentariu</label>
+                        <br />
+
+                        <textarea class="form-control" name="Continut"></textarea>
+
+                        <span asp-validation-for="Continut" class="text-danger"></span>
+                        <br /><br />
+
+                        <button class="btn btn-success" type="submit">Adauga raspunsul</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-2"></div>
+
+    </div>
+
+</div>

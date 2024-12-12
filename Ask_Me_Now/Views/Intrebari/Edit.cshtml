@@ -1,0 +1,23 @@
+﻿@model Ask_Me_Now.Models.Intrebare
+
+@{
+    ViewBag.Title = "Editați Întrebarea";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form asp-action="Edit" asp-controller="Intrebari" asp-route-id="@Model.IntrebareId" method="post">
+    <div class="form-group">
+        <label asp-for="Nume" class="form-label">Numele utilizatorului</label>
+        <input asp-for="Nume" class="form-control" />
+        <span asp-validation-for="Nume" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <button class="btn btn-success" type="submit">Modificați întrebarea</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
