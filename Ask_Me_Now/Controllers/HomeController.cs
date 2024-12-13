@@ -1,11 +1,28 @@
+﻿using Ask_Me_Now.Data;
 using Ask_Me_Now.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Ask_Me_Now.Controllers
 {
     public class HomeController : Controller
     {
+        //useri si roluri
+        private readonly ApplicationDbContext db;
+        private readonly UserManager<Utilizator> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public HomeController(
+        ApplicationDbContext context,
+        UserManager<Utilizator> userManager,
+        RoleManager<IdentityRole> roleManager
+        )
+        {
+            db = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
+        }
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -15,6 +32,11 @@ namespace Ask_Me_Now.Controllers
 
         public IActionResult Index()
         {
+            var categorii = db.Categorii
+            .Include(c => c.Intrebari) 
+            .ToList();
+           
+            ViewBag.Categorii = categorii;
             return View();
         }
 
