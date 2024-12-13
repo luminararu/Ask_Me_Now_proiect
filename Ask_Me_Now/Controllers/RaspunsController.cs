@@ -42,7 +42,7 @@ namespace ArticlesApp.Controllers
             {
                 TempData["message"] = "Nu aveti dreptul sa stergeti raspunsul";
                 TempData["messageType"] = "alert-danger";
-                return RedirectToAction("Index", "Articles");
+                return RedirectToAction("Index", "Intrebari");
             }
         }
 
@@ -58,19 +58,14 @@ namespace ArticlesApp.Controllers
             }
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa editati raspunsul";
+                TempData["message"] = "Nu aveti dreptul sa editati raspunsul!";
                 TempData["messageType"] = "alert-danger";
                 return RedirectToAction("Index", "Intrebari");
             }
         }
 
-
-
-
-
         [HttpPost]
         [Authorize(Roles = "User,Admin")]
-        
         public IActionResult New(Raspuns raspuns)
         {
             var sanitizer = new HtmlSanitizer();
@@ -120,9 +115,9 @@ namespace ArticlesApp.Controllers
             }
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa editati comentariul";
+                TempData["message"] = "Nu aveti dreptul sa editati raspunsul!";
                 TempData["messageType"] = "alert-danger";
-                return RedirectToAction("Index", "Articles");
+                return RedirectToAction("Index", "Intrebari");
             }
         }
     }

@@ -1,22 +1,20 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "INTREBARI";
 }
 
-<h2>@ViewBag.Titile </h2>
+<h2>@ViewBag.Title</h2>
 <br />
 
-@if(TempData.ContainsKey("message"))
+@if (TempData.ContainsKey("message"))
 {
-    
-    <h1>@ViewBag.message</h1>
+    <h1>@TempData["message"]</h1>
 }
 <br />
-
 
 @foreach (Ask_Me_Now.Models.Intrebare intrebare in ViewBag.Intrebari)
 {
     <div class="form-group">
-        <label asp-for="@intrebare.Nume" class="form-label">Nume utilizator</label>
+        <label asp-for="@intrebare.Continut" class="form-label">Continut intrebare</label>
         <div><i class="bi bi-globe"></i> @intrebare.Continut</div>
     </div>
     <br />
@@ -24,8 +22,8 @@
     <a class="btn alert-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@intrebare.IntrebareId">Editare intrebare</a>
     <br />
     <br />
-
 }
+
 <br />
 <a class="btn btn-success" asp-controller="Intrebari" asp-action="New">Adauga o noua intrebare</a>
 <br />

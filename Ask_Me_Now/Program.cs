@@ -20,6 +20,22 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+//pentru incarcarea css
+app.UseStaticFiles();
+// redirectionarea utilizatorilor neautentificati catre pagina de inregistrare
+app.Use(async (context, next) =>
+{
+    if (!context.User.Identity.IsAuthenticated &&
+        context.Request.Path != "/Identity/Account/Register" &&
+        context.Request.Path != "/Identity/Account/Login" &&
+        !context.Request.Path.StartsWithSegments("/Identity"))
+    {
+        context.Response.Redirect("/Identity/Account/Register");
+        return;
+    }
+    await next();
+});
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

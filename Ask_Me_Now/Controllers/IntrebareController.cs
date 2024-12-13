@@ -54,10 +54,10 @@ namespace Ask_Me_Now.Controllers
             }
             // Se preiau articolele corespunzatoare pentru fiecare pagina la care ne aflam 
             // in functie de offset
-            var paginatedArticles = intrebari.Skip(offset).Take(_perPage);
+            var intrebariPaginate= intrebari.Skip(offset).Take(_perPage);
 
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
-            ViewBag.Articles = paginatedArticles;
+            ViewBag.Intrebari = intrebariPaginate;
 
             return View();
         }
@@ -107,7 +107,7 @@ namespace Ask_Me_Now.Controllers
             }
         }
 
-        [Authorize(Roles = "Editor,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult New()
         {
             Intrebare intrebare = new Intrebare();
@@ -118,7 +118,7 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Editor,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult New(Intrebare intrebare)
         {
             var sanitizer = new HtmlSanitizer();
@@ -145,7 +145,7 @@ namespace Ask_Me_Now.Controllers
             }
         }
 
-        [Authorize(Roles = "Editor,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Edit(int id)
         {
 
@@ -170,7 +170,7 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Editor,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Edit(int id, Intrebare requestArticle)
         {
             var sanitizer = new HtmlSanitizer();
@@ -188,7 +188,7 @@ namespace Ask_Me_Now.Controllers
                     intrebare.Continut = requestArticle.Continut;
 
                     intrebare.Data = DateTime.Now;
-                    intrebare.CategorieID = requestArticle.CategorieID;
+                    intrebare.CategorieId = requestArticle.CategorieId;
                     TempData["message"] = "Intrebarea a fost modificata";
                     TempData["messageType"] = "alert-success";
                     db.SaveChanges();
@@ -209,25 +209,24 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Editor,Admin")]
+        [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
             Intrebare intrebare = db.Intrebari.Include("Raspuns")
                                          .Where(art => art.IntrebareId == id)
                                          .First();
 
-            if ((intrebare.UserId == _userManager.GetUserId(User))
-                    || User.IsInRole("Admin"))
+            if ((intrebare.UserId == _userManager.GetUserId(User))|| User.IsInRole("Admin"))
             {
                 db.Intrebari.Remove(intrebare);
                 db.SaveChanges();
-                TempData["message"] = "Articolul a fost sters";
+                TempData["message"] = "Intrebarea a fost stearsa cu succes!";
                 TempData["messageType"] = "alert-success";
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["message"] = "Nu aveti dreptul sa stergeti un articol care nu va apartine";
+                TempData["message"] = "Nu aveti dreptul sa stergeti o intrebare care nu va apartine!";
                 TempData["messageType"] = "alert-danger";
                 return RedirectToAction("Index");
             }
@@ -239,7 +238,7 @@ namespace Ask_Me_Now.Controllers
         {
             ViewBag.AfisareButoane = false;
 
-            if (User.IsInRole("Editor"))
+            if (User.IsInRole("User"))
             {
                 ViewBag.AfisareButoane = true;
             }

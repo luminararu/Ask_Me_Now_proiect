@@ -14,17 +14,6 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
 
                 <div class="form-group">
-                    <label asp-for="Nume" class="form-label">Numele Utilizatorului</label>
-                    <br />
-                    <input asp-for="Nume" class="form-control" />
-
-                    <!-- Mesaj de validare pentru titlu -->
-                    <span asp-validation-for="Nume" class="text-danger"></span>
-
-                    <br /><br />
-                </div>
-
-                <div class="form-group">
                     <label asp-for="Continut" class="form-label">Continut Intrebare</label>
                     <br />
                     <textarea asp-for="Continut" class="form-control summernote"></textarea>
@@ -38,17 +27,17 @@
                 <div class="form-group">
                     <label for="CategorieId">Selectati categoria</label>
                     <br />
-                    <select asp-for="CategorieID" asp-items="Model.Categ" class="form-control">
+                    <select asp-for="CategorieId" asp-items="Model.Categ" class="form-control">
                         <option value="">Selectati categoria</option>
                     </select>
 
                     <!-- Mesaj de validare pentru CategoryId -->
-                    <span asp-validation-for="CategorieID" class="text-danger"></span>
+                    <span asp-validation-for="CategorieId" class="text-danger"></span>
 
                     <br />
                 </div>
                 <br />
-                <button class="btn btn-success" type="submit">Adauga articol</button>
+                <button class="btn btn-success" type="submit">Adauga intrebare</button>
 
             </form>
         </div>

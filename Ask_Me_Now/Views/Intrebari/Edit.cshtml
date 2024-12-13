@@ -8,14 +8,14 @@
 
 <form asp-action="Edit" asp-controller="Intrebari" asp-route-id="@Model.IntrebareId" method="post">
     <div class="form-group">
-        <label asp-for="Nume" class="form-label">Numele utilizatorului</label>
-        <input asp-for="Nume" class="form-control" />
-        <span asp-validation-for="Nume" class="text-danger"></span>
+        <label asp-for="Continut" class="form-label">Continut intrebare</label>
+        <input asp-for="Continut" class="form-control" />
+        <span asp-validation-for="Continut" class="text-danger"></span>
     </div>
 
     <br />
 
-    <button class="btn btn-success" type="submit">Modificați întrebarea</button>
+    <button class="btn btn-success" type="submit">Modificati întrebarea</button>
 </form>
 
 @section Scripts {

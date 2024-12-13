@@ -4,6 +4,7 @@ using Ask_Me_Now.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ask_Me_Now.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213121049_IntrebareUpdatat2")]
+    partial class IntrebareUpdatat2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,6 +52,7 @@ namespace Ask_Me_Now.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IntrebareId"));
 
                     b.Property<int?>("CategorieId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Continut")
@@ -66,6 +70,7 @@ namespace Ask_Me_Now.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UtilizatorId")
@@ -99,11 +104,15 @@ namespace Ask_Me_Now.Data.Migrations
                     b.Property<int>("Dislikes")
                         .HasColumnType("int");
 
-                    b.Property<int?>("IntrebareId")
+                    b.Property<int>("IntrebareId")
                         .HasColumnType("int");
 
                     b.Property<int>("Likes")
                         .HasColumnType("int");
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -330,7 +339,9 @@ namespace Ask_Me_Now.Data.Migrations
                 {
                     b.HasOne("Ask_Me_Now.Models.Categorie", "Categorie")
                         .WithMany("Intrebari")
-                        .HasForeignKey("CategorieId");
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Ask_Me_Now.Models.Utilizator", "Utilizator")
                         .WithMany("Intrebari")
@@ -345,7 +356,9 @@ namespace Ask_Me_Now.Data.Migrations
                 {
                     b.HasOne("Ask_Me_Now.Models.Intrebare", "Intrebare")
                         .WithMany("Raspunsuri")
-                        .HasForeignKey("IntrebareId");
+                        .HasForeignKey("IntrebareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Ask_Me_Now.Models.Utilizator", "Utilizator")
                         .WithMany("Raspunsuri")

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class CategoriiController : Controller
     {
             //useri si roluri
@@ -24,7 +24,8 @@ namespace Ask_Me_Now.Controllers
                 _userManager = userManager;
                 _roleManager = roleManager;
             }
-            
+
+            [Authorize(Roles ="Admin,User")]
             public ActionResult Index()
             {
                 if (TempData.ContainsKey("message"))
@@ -39,18 +40,21 @@ namespace Ask_Me_Now.Controllers
                 return View();
             }
 
+            [Authorize(Roles ="Admin,User")]
             public ActionResult Show(int id)
             {
                 Categorie categorie = db.Categorii.Find(id);
                 return View(categorie);
             }
 
+            [Authorize(Roles ="Admin")]
             public ActionResult New()
             {
                 return View();
             }
 
             [HttpPost]
+            [Authorize(Roles ="Admin")]
             public ActionResult New(Categorie cat)
             {
                 if (string.IsNullOrEmpty(cat.Denumire))
@@ -66,40 +70,43 @@ namespace Ask_Me_Now.Controllers
                 }
                 return View(cat);
             }
-
+            
+            [Authorize(Roles ="Admin")]
             public ActionResult Edit(int id)
             {
                 Categorie categorie = db.Categorii.Find(id);
                 return View(categorie);
             }
 
-        [HttpPost]
-        public ActionResult Edit(int id, Categorie categorieReq)
-        {
-            Categorie categorie = db.Categorii.Find(id);
-            if (string.IsNullOrEmpty(categorieReq.Denumire))
+            [HttpPost]
+            [Authorize(Roles ="Admin")]
+            public ActionResult Edit(int id, Categorie categorieReq)
             {
-                ModelState.AddModelError(string.Empty, "Continutul trebuie completat!");
-            }
-            else
-            {
-                categorie.Denumire = categorieReq.Denumire;
-                db.SaveChanges();
-                TempData["message"] = "Categoria a fost modificata cu succes!";
-                return RedirectToAction("Index");
+                Categorie categorie = db.Categorii.Find(id);
+                if (string.IsNullOrEmpty(categorieReq.Denumire))
+                {
+                    ModelState.AddModelError(string.Empty, "Continutul trebuie completat!");
+                }
+                else
+                {
+                    categorie.Denumire = categorieReq.Denumire;
+                    db.SaveChanges();
+                    TempData["message"] = "Categoria a fost modificata cu succes!";
+                    return RedirectToAction("Index");
 
-            }
-            return View(categorieReq);
-            }
+                }
+                return View(categorieReq);
+                }
 
             [HttpPost]
+            [Authorize(Roles ="Admin")]
             public ActionResult Delete(int id)
             {
 
                 Categorie categorie= db.Categorii.Include("Intrebari")
-                                                 .Include("Intrebari.Raspunsuri")
-                                                 .Where(c => c.CategorieId == id)
-                                                 .First();
+                                                    .Include("Intrebari.Raspunsuri")
+                                                    .Where(c => c.CategorieId == id)
+                                                    .First();
 
                 db.Categorii.Remove(categorie);
 
@@ -107,5 +114,5 @@ namespace Ask_Me_Now.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-     }
+        }
 }
