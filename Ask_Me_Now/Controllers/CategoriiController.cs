@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Controllers
 {
-    [Authorize]
     public class CategoriiController : Controller
     {
             //useri si roluri
@@ -25,7 +24,6 @@ namespace Ask_Me_Now.Controllers
                 _roleManager = roleManager;
             }
 
-            [Authorize(Roles ="Admin,User")]
             public ActionResult Index()
             {
                 if (TempData.ContainsKey("message"))
@@ -40,7 +38,7 @@ namespace Ask_Me_Now.Controllers
                 return View();
             }
 
-            [Authorize(Roles ="Admin,User")]
+            
             public ActionResult Show(int id)
             {
                 Categorie categorie = db.Categorii.Find(id);

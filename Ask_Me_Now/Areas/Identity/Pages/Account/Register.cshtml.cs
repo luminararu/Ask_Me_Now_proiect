@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Ask_Me_Now.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Utilizator> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _dbContext;
 
         public RegisterModel(
             UserManager<Utilizator> userManager,
             IUserStore<Utilizator> userStore,
             SignInManager<Utilizator> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _dbContext = dbContext; 
         }
 
         /// <summary>
@@ -69,6 +74,7 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        public List<Categorie> Categorii { get; set; } // proprietate pentru a salva categoriile
         public class InputModel
         {
             /// <summary>
@@ -103,6 +109,9 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            Categorii = _dbContext.Categorii
+            .ToList();
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }

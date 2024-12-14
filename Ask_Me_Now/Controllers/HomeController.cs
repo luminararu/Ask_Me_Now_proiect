@@ -31,12 +31,16 @@ namespace Ask_Me_Now.Controllers
         }
 
         public IActionResult Index()
+        { 
+            return View();
+        }
+
+        public IActionResult Register()
         {
             var categorii = db.Categorii
-            .Include(c => c.Intrebari) 
-            .ToList();
-           
-            ViewBag.Categorii = categorii;
+                .ToList();
+
+            ViewBag.Categorii = categorii; 
             return View();
         }
 

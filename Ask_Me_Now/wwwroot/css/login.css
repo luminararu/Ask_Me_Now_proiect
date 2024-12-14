@@ -1,6 +1,6 @@
 ﻿p{
     color:rgb(21, 27, 98);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:'Lucida Sans';
     font-size:larger;
     font:bold;
     text-align: center;
@@ -15,7 +15,7 @@
 #registerForm h2 {
     text-align: center;
     color: beige;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Handwriting';
     margin-bottom: 20px;
 }
 
@@ -75,10 +75,11 @@ button#registerSubmit:hover {
 
 /* Containerul din dreapta */
 section {
-    margin-left:10em;
+    margin-left:4em;
     background-color: bisque;
     padding: 30px;
     border-radius: 8px;
+    width:130%;
 }
 section h3 {
     text-align: center;

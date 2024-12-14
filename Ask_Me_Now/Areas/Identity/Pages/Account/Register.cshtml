@@ -5,12 +5,11 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<link href="~/css/login.css" rel="stylesheet" />
-
+<br />
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" method="post">
-            <h2>Fa-ti un cont nou si... Ask Me Now!</h2>
+            <h2>Ask Me Now!</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -43,31 +42,26 @@
         <section>
             <h3>Ce nu trebuie sa ratezi?</h3>
             <div class="categorii">
-            @if (ViewBag.Categorii != null)
-            {
-                foreach (var categorie in ViewBag.Categorii)
+                @if (Model.Categorii != null && Model.Categorii.Any())
                 {
-                    <div class="categorie">
-                        <h4>@categorie.Denumire</h4>
-                        <ul>
-                            @foreach (var intrebare in categorie.Intrebari.Take(3))
-                            {
-                                <li>@intrebare.Continut</li>
-                            }
-                        </ul>
-                        <a href="@Url.Action("Category", "Home", new { id = categorie.CategorieId })">Vezi mai multe intrebari din aceasta categorie</a>
-                    </div>
+                    foreach (var categorie in Model.Categorii)
+                    {
+                        <div class="categorie">
+                            <h4>Intrebari din categoria @categorie.Denumire</h4>
+                            <a href="@Url.Action("Show", "Categorii", new { id = categorie.CategorieId })">Vezi intrebarile din aceasta categorie</a>
+
+                            <hr /><hr />
+                        </div>
+                    }
                 }
-            }
-            else
-            {
-                <p>Nu există categorii disponibile.</p>
-            }
+                else
+                {
+                    <p>Nu există categorii disponibile.</p>
+                }
             </div>
         </section>
     </div>
 </div>
-
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }

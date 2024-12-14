@@ -18,5 +18,119 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: floralwhite;
+    font-family: 'Lucida Bright';
+    font-style: italic;
+    text-align: center;
+    color: rgb(21, 27, 98);
+}
+
+p {
+    color: rgb(21, 27, 98);
+    font-family: 'Georgia';
+    font-size: larger;
+    font: bold;
+    text-align: center;
+}
+body a{
+    color: darksalmon;
+    font-size:large;
+
+}
+body a:hover{
+    background-color:darksalmon;
+    color:navajowhite;
+}
+/* Stilizarea formularului de inregistrare */
+#registerForm {
+    background-color: cadetblue;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgb(20, 57, 56);
+    color:floralwhite;
+}
+
+.form-floating {
+    position: relative;
+    margin-bottom: 15px;
+}
+    /*casutele*/
+    .form-floating input {
+        border-radius: 8px;
+        border: 1px solid rgb(21, 27, 98);
+        padding: 15px;
+        width: 100%;
+        font-size: 16px;
+        background-color: bisque;
+    }
+    /*interior*/
+    .form-floating label {
+        position: absolute;
+        left: 12px;
+        padding: 5px;
+        font-size: 16px;
+        color: rgb(21, 27, 98);
+        transition: all 0.2s;
+    }
+
+    /* Mesaje de validare */
+    .form-floating.text-danger {
+        font-size: 20px;
+        margin-top: 8px;
+    }
+
+/* Stilizarea butoanelor */
+button {
+    font-family: 'Arial';
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: darksalmon;
+}
+
+    /* Butonul de înregistrare */
+    button#registerSubmit {
+        background-color: darksalmon;
+        border: 2px solid rgb(21, 27, 98);
+        color: navajowhite;
+        width: 100%;
+    }
+
+        button#registerSubmit:hover {
+            background-color: steelblue;
+            border-color: deepskyblue;
+        }
+
+/* Containerul din dreapta */
+section {
+    margin-left: 4em;
+    background-color: bisque;
+    padding: 30px;
+    border-radius: 8px;
+    width: 130%;
+}
+section h3 {
+    text-align: center;
+    color: rgb(21, 27, 98);
+    font-family: 'Segoe UI',;
+    margin-bottom: 20px;
+}
+
+/*Header-ul*/
+header {
+    background-color: cadetblue !important;
+}
+.navbar {
+    background-color: cadetblue !important;
+}
+.navbar-brand, .navbar .nav-link {
+    color: white !important;
+}
+.navbar-brand:hover, .navbar .nav-link:hover {
+    color: rgb(21, 27, 98) !important;
+    border-color: aquamarine !important;
 }

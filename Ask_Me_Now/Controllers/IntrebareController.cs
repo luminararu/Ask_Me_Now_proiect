@@ -28,7 +28,6 @@ namespace Ask_Me_Now.Controllers
             _roleManager = roleManager;
         }
 
-        [Authorize(Roles = "User,Admin")]
         public IActionResult Index()
         {
             var intrebari = db.Intrebari.Include("Categorie")

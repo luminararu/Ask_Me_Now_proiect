@@ -26,13 +26,13 @@ app.UseStaticFiles();
 app.Use(async (context, next) =>
 {
     if (!context.User.Identity.IsAuthenticated &&
-        context.Request.Path != "/Identity/Account/Register" &&
-        context.Request.Path != "/Identity/Account/Login" &&
-        !context.Request.Path.StartsWithSegments("/Identity"))
+        !context.Request.Path.StartsWithSegments("/Identity") &&
+        !context.Request.Path.StartsWithSegments("/Categorii"))
     {
         context.Response.Redirect("/Identity/Account/Register");
         return;
     }
+
     await next();
 });
 
