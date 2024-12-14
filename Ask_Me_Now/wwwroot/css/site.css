@@ -1,31 +1,26 @@
 html {
   font-size: 14px;
 }
-
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
-
 html {
   position: relative;
   min-height: 100%;
 }
-
 body {
     margin-bottom: 60px;
-    background-color: floralwhite;
+    background-color: lightyellow;
     font-family: 'Lucida Bright';
     font-style: italic;
     text-align: center;
     color: rgb(21, 27, 98);
 }
-
 p {
     color: rgb(21, 27, 98);
     font-family: 'Georgia';
@@ -42,6 +37,8 @@ body a:hover{
     background-color:darksalmon;
     color:navajowhite;
 }
+
+
 /* Stilizarea formularului de inregistrare */
 #registerForm {
     background-color: cadetblue;
@@ -50,36 +47,33 @@ body a:hover{
     box-shadow: 0 4px 10px rgb(20, 57, 56);
     color:floralwhite;
 }
-
 .form-floating {
     position: relative;
     margin-bottom: 15px;
 }
-    /*casutele*/
-    .form-floating input {
-        border-radius: 8px;
-        border: 1px solid rgb(21, 27, 98);
-        padding: 15px;
-        width: 100%;
-        font-size: 16px;
-        background-color: bisque;
-    }
-    /*interior*/
-    .form-floating label {
-        position: absolute;
-        left: 12px;
-        padding: 5px;
-        font-size: 16px;
-        color: rgb(21, 27, 98);
-        transition: all 0.2s;
-    }
-
-    /* Mesaje de validare */
-    .form-floating.text-danger {
-        font-size: 20px;
-        margin-top: 8px;
-    }
-
+/*casutele*/
+.form-floating input {
+    border-radius: 8px;
+    border: 1px solid rgb(21, 27, 98);
+    padding: 15px;
+    width: 100%;
+    font-size: 16px;
+    background-color: bisque;
+}
+/*interior*/
+.form-floating label {
+    position: absolute;
+    left: 12px;
+    padding: 5px;
+    font-size: 16px;
+    color: rgb(21, 27, 98);
+    transition: all 0.2s;
+}
+/* Mesaje de validare */
+.form-floating.text-danger {
+    font-size: 20px;
+    margin-top: 8px;
+}
 /* Stilizarea butoanelor */
 button {
     font-family: 'Arial';
@@ -91,20 +85,17 @@ button {
     transition: background-color 0.3s ease;
     background-color: darksalmon;
 }
-
-    /* Butonul de înregistrare */
-    button#registerSubmit {
-        background-color: darksalmon;
-        border: 2px solid rgb(21, 27, 98);
-        color: navajowhite;
-        width: 100%;
-    }
-
-        button#registerSubmit:hover {
-            background-color: steelblue;
-            border-color: deepskyblue;
-        }
-
+/* Butonul de înregistrare */
+button#registerSubmit {
+    background-color: darksalmon;
+    border: 2px solid rgb(21, 27, 98);
+    color: navajowhite;
+    width: 100%;
+}
+button#registerSubmit:hover {
+    background-color: steelblue;
+    border-color: deepskyblue;
+}
 /* Containerul din dreapta */
 section {
     margin-left: 4em;
@@ -118,6 +109,30 @@ section h3 {
     color: rgb(21, 27, 98);
     font-family: 'Segoe UI',;
     margin-bottom: 20px;
+}
+
+
+/*Stilizarea formularului de logare*/
+#account {
+    background-color: cadetblue;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgb(20, 57, 56);
+    color: floralwhite;
+}
+#account a{
+    color: floralwhite;
+}
+/* Butonul de login */
+button#login-submit {
+    background-color: darksalmon;
+    border: 2px solid rgb(21, 27, 98);
+    color: navajowhite;
+    width: 100%;
+}
+button#login-submit:hover {
+    background-color: steelblue;
+    border-color: deepskyblue;
 }
 
 /*Header-ul*/
