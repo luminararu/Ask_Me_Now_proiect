@@ -1,27 +1,41 @@
 ﻿@model Ask_Me_Now.Models.Categorie
 @{
-    ViewBag.Title = "AFISARE CATEGORIE";
+    ViewBag.Title = "Categoria";
 }
 
 
-<h2>@ViewBag.Title</h2>
-
+<h2>@ViewBag.Title @Model.Denumire</h2>
 <br />
 
-<p>@Model.Denumire</p>
+@if (User.IsInRole("Admin"))
+{
+    <form method="post" asp-controller="Categorii" asp-action="Delete" asp-route-id="@Model.CategorieId">
+        <button class="btn btn-danger" type="submit">Stergeti categoria</button>
+    </form>
+    <form method="post" asp-controller="Categorii" asp-action="Edit" asp-route-id="@Model.CategorieId">
+        <button class="btn btn-danger" type="submit">Editati categoria</button>
+    </form>
+}
+<a class="btn alert-success" href="/Categorii/Index/">Catre pagina cu toate categoriile</a>
+<hr />
+<hr />
 
-
-<form method="post" asp-controller="Categorii" asp-action="Delete"
-      asp-route-id="@Model.CategorieId">
-
-    <button class="btn btn-danger" type="submit">Stergeti categoria</button>
-
-</form>
-
-<br />
-
-<a class="btn alert-success" href="/Categorii/Index/">Afisati toate categoriile</a>
-
+@if (Model.Intrebari != null)
+{
+    <div class="intrebari">
+        @foreach (var intrebare in Model.Intrebari)
+        {
+            <div class="intrebare">
+                <p>UTILIZATORUL @intrebare.Utilizator?.NormalizedUserName INTREABA: @intrebare.Continut</p>
+                <a asp-action="Show" asp-controller="Intrebari" asp-route-id="@intrebare.IntrebareId" class="btn btn-primary">Vezi intrebarea</a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div>Nu exista intrebari in aceasta categorie.</div>
+}
 <br />
 <hr />
 <br />

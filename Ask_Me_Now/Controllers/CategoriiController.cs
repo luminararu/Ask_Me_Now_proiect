@@ -41,19 +41,27 @@ namespace Ask_Me_Now.Controllers
             
             public ActionResult Show(int id)
             {
-                Categorie categorie = db.Categorii.Find(id);
+                Categorie categorie = db.Categorii.Include("Intrebari")
+                                                   .Include("Intrebari.Raspunsuri")
+                                        .Where(cat => cat.CategorieId == id)
+                                        .First();
+                if (TempData.ContainsKey("message"))
+                {
+                    ViewBag.Message = TempData["message"];
+                    ViewBag.Alert = TempData["messageType"];
+                }
                 return View(categorie);
             }
 
             [Authorize(Roles ="Admin")]
-            public ActionResult New()
+            public IActionResult New()
             {
                 return View();
             }
 
             [HttpPost]
             [Authorize(Roles ="Admin")]
-            public ActionResult New(Categorie cat)
+            public IActionResult New(Categorie cat)
             {
                 if (string.IsNullOrEmpty(cat.Denumire))
                 {
@@ -61,10 +69,10 @@ namespace Ask_Me_Now.Controllers
                 }
                 else
                 {   
-                db.Categorii.Add(cat);
+                    db.Categorii.Add(cat);
                     db.SaveChanges();
                     TempData["message"] = "Categoria a fost adaugata cu succes!";
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 return View(cat);
             }

@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Controllers
 {
-    [Authorize]
     public class IntrebariController : Controller
     {
         // PASUL 10: useri si roluri 
@@ -60,8 +59,6 @@ namespace Ask_Me_Now.Controllers
 
             return View();
         }
-
-        [Authorize(Roles = "User,Admin")]
         public IActionResult Show(int id)
         {
             Intrebare intrebari = db.Intrebari.Include("Categorie")
@@ -80,7 +77,6 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "User,Admin")]
         public IActionResult Show([FromForm] Raspuns raspuns)
         {
             raspuns.Data = DateTime.Now;

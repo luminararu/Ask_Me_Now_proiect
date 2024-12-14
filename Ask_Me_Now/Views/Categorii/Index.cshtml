@@ -9,23 +9,28 @@
 {
     <h1>@ViewBag.message</h1>
 }
-
-<br />
-
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn btn-success" asp-controller="Categorii" asp-action="New">Adauga o noua categorie</a>
+    <hr />
+}
 @foreach (Ask_Me_Now.Models.Categorie categorie in ViewBag.Categorii)
 {
     <div class="form-group">
-        <label asp-for="@categorie.Denumire" class="form-label">Denumire categorie</label>
+        <label asp-for="@categorie.Denumire" class="form-label">Categoria</label>
         <div><i class="bi bi-globe"></i> @categorie.Denumire</div>
     </div>
-    <br />
-    <a class="btn alert-success" asp-controller="Categorii" asp-action="Show" asp-route-id="@categorie.CategorieId">Afisare categorie</a>
-    <a class="btn alert-success" asp-controller="Categorii" asp-action="Edit" asp-route-id="@categorie.CategorieId">Editare categorie</a>
-    <br />
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn alert-success" asp-controller="Categorii" asp-action="Edit" asp-route-id="@categorie.CategorieId">Editare categorie</a>
+        <a class="btn alert-success" asp-controller="Categorii" asp-action="Delete" asp-route-id="@categorie.CategorieId">Stergere categorie</a>
+    }
+        <a class="btn alert-success" asp-controller="Categorii" asp-action="Show" asp-route-id="@categorie.CategorieId">Vezi intrebarile din aceasta categorie</a>
+    <hr />
     <br />
 
 }
+
 <br />
-<a class="btn btn-success" asp-controller="Categorii" asp-action="New">Adauga o noua categorie</a>
 <br />
 

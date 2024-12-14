@@ -2,16 +2,16 @@
 
 
 @{
-    ViewBag.Title = "EDITARE CATEGORIE";
+    ViewBag.Title = "EDITARE CATEGORIA";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>@ViewBag.Title @Model.Denumire</h2>
 
 
 <form asp-action="Edit" asp-controller="Categorii" asp-route-id="@Model.CategorieId" method="post">
 
     <div class="form-group">
-        <label asp-for="Denumire" class="form-label">Denumire categorie</label>
+        <label asp-for="Denumire" class="form-label">Noua denumire de categorie</label>
         <br />
         <input asp-for="Denumire" class="form-control" />
         <span asp-validation-for="Denumire" class="text-danger"></span>
