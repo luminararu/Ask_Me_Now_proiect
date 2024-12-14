@@ -26,8 +26,9 @@
         @foreach (var intrebare in Model.Intrebari)
         {
             <div class="intrebare">
-                <p>UTILIZATORUL @intrebare.Utilizator?.NormalizedUserName INTREABA: @intrebare.Continut</p>
+                <p>@intrebare.Continut</p>
                 <a asp-action="Show" asp-controller="Intrebari" asp-route-id="@intrebare.IntrebareId" class="btn btn-primary">Vezi intrebarea</a>
+                <hr />
             </div>
         }
     </div>

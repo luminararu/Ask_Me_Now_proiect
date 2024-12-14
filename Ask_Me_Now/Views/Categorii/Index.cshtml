@@ -23,7 +23,9 @@
     @if (User.IsInRole("Admin"))
     {
         <a class="btn alert-success" asp-controller="Categorii" asp-action="Edit" asp-route-id="@categorie.CategorieId">Editare categorie</a>
-        <a class="btn alert-success" asp-controller="Categorii" asp-action="Delete" asp-route-id="@categorie.CategorieId">Stergere categorie</a>
+        <form method="post" asp-controller="Categorii" asp-action="Delete" asp-route-id="@categorie.CategorieId"><button class="btn btn-danger" type="submit">Stergere categorie</button>
+
+        </form>
     }
         <a class="btn alert-success" asp-controller="Categorii" asp-action="Show" asp-route-id="@categorie.CategorieId">Vezi intrebarile din aceasta categorie</a>
     <hr />
