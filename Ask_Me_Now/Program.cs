@@ -27,7 +27,8 @@ app.Use(async (context, next) =>
 {
     if (!context.User.Identity.IsAuthenticated &&
         !context.Request.Path.StartsWithSegments("/Identity") &&
-        !context.Request.Path.StartsWithSegments("/Categorii"))
+        !context.Request.Path.StartsWithSegments("/Categorii") &&
+        !context.Request.Path.StartsWithSegments("/Intrebari"))
     {
         context.Response.Redirect("/Identity/Account/Register");
         return;

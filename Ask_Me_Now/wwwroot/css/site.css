@@ -76,7 +76,7 @@ body a:hover{
 }
 /* Stilizarea butoanelor */
 button {
-    font-family: 'Arial';
+    font-family: 'Lucida Bright';
     font-size: 16px;
     font-weight: bold;
     padding: 12px;
@@ -144,8 +144,71 @@ header {
 }
 .navbar-brand, .navbar .nav-link {
     color: white !important;
+    font-family:'Lucida Handwriting';
+    font-weight:800;
 }
 .navbar-brand:hover, .navbar .nav-link:hover {
     color: rgb(21, 27, 98) !important;
     border-color: aquamarine !important;
+}
+
+/*CATEGORII*/
+.intrebari .btn{
+    background-color:darksalmon;
+    color:navajowhite;
+    font-weight:700;
+    border-color:navajowhite;
+}
+.intrebari .btn:hover{
+    background-color:salmon;
+    color:navajowhite;
+}
+.intrebari p {
+    font-weight:500;
+}
+h2{
+    font-family:'Lucida Handwriting';
+    font-weight:800;
+    text-decoration:underline;
+}
+.btn{
+    background-color:cadetblue;
+    color:bisque;
+    border-radius:3em;
+    border-color:rgb(21,27,98);
+    font-weight:500;
+    color:rgb(21, 27, 98);
+}
+.btn:hover {
+    background-color: steelblue;
+    color: bisque;
+    border-radius: 3em;
+    font-weight: 500;
+    color: rgb(21, 27, 98);
+}
+.pagination .page-item .page-link
+{
+    background-color: rgb(21,27,98);
+    color:white;
+}
+    .pagination .page-item .page-link:hover {
+        background-color: steelblue;
+        color: navajowhite;
+    }
+
+/*INTREBARI*/
+.card
+{
+    background-color:#fad8bd;
+    font-weight:600;
+    border-radius:4em;
+}
+.card .btn
+{
+    border-color:rgb(21,27,98);
+}
+.form-group {
+    background-color: #fad8bd;
+    font-weight: 600;
+    border-radius: 4em;
 }

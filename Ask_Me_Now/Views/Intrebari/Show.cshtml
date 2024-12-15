@@ -15,31 +15,25 @@
 
 <div class="card">
 
-    <partial name="IntrebareInfo" model="Model"></partial>
-
+    <p>Intrebarea este:</p>
+    <p>@Model.Continut</p>
     @if ((ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent)
     || ViewBag.EsteAdmin == true)
     {
-        <div class="d-flex flex-row justify-content-between">
-
-            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editeaza articol</a>
-
+        <div class="d-flex flex-row justify-content-center">
+            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editeaza intrebarea</a>
             <form method="post" asp-controller="Intrebari" asp-action="Delete" asp-route-id="@Model.IntrebareId">
-
                 <button class="btn btn-danger" type="submit">Sterge intrebarea</button>
-
             </form>
-
+            <br />
         </div>
     }
-
-
 </div>
 
 <br />
 <br />
 
-@* Afisare intrebari impreuna cu butoanele de editare si stergere *@
+@* Afisare raspunsuri impreuna cu butoanele de editare si stergere *@
 
 @foreach (var comm in Model.Raspunsuri)
 {
@@ -88,7 +82,7 @@
 }
 
 
-@* Afisarea formularului in care se poate adauga un comentariu *@
+@* Afisarea formularului in care se poate adauga un raspuns *@
 
 <div class="container">
 
@@ -106,7 +100,7 @@
 
                         <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
 
-                        <label>Continut comentariu</label>
+                        <label>Adauga un raspuns</label>
                         <br />
 
                         <textarea class="form-control" name="Continut"></textarea>

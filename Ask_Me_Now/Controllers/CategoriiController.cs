@@ -44,12 +44,41 @@ namespace Ask_Me_Now.Controllers
                 Categorie categorie = db.Categorii.Include("Intrebari")
                                                    .Include("Intrebari.Raspunsuri")
                                         .Where(cat => cat.CategorieId == id)
-                                        .First();
+                                        .FirstOrDefault();
                 if (TempData.ContainsKey("message"))
                 {
                     ViewBag.Message = TempData["message"];
                     ViewBag.Alert = TempData["messageType"];
                 }
+
+                /*AFISARE PAGINATA*/
+                int _perPage = 3;
+                int total = categorie.Intrebari.Count();
+                
+                var currentPageString = HttpContext.Request.Query["page"].FirstOrDefault();
+                int currentPage = 1; // default
+                if (!string.IsNullOrEmpty(currentPageString) && int.TryParse(currentPageString, out int result))
+                {
+                    currentPage = result;
+                }
+
+                var offset = 0;
+                // Se calculeaza offsetul in functie de numarul paginii la care suntem
+                if (!currentPage.Equals(0))
+                {
+                    offset = (currentPage - 1) * _perPage;
+                }
+                // Se preiau intrebarile corespunzatoare pentru fiecare pagina la care ne aflam 
+                // in functie de offset
+                var intrebariPaginate = categorie.Intrebari.Skip(offset).Take(_perPage);
+
+                ViewBag.lastPage = Math.Ceiling((float)total / (float)_perPage);
+                ViewBag.Intrebari = intrebariPaginate;
+
+                var baseUrl = $"/Categorii/Show/{id}?page";
+                ViewBag.PaginationBaseUrl = baseUrl;
+                ViewBag.CurrentPage = currentPage;
+
                 return View(categorie);
             }
 
