@@ -15,8 +15,6 @@
 
 <div class="card">
 
-    <partial name="IntrebareInfo" model="Model"></partial>
-
     @if ((ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent)
     || ViewBag.EsteAdmin == true)
     {
@@ -88,7 +86,7 @@
 }
 
 
-@* Afisarea formularului in care se poate adauga un comentariu *@
+@* Afisarea formularului in care se poate adauga o intrebare *@
 
 <div class="container">
 

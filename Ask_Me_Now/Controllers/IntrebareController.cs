@@ -59,10 +59,11 @@ namespace Ask_Me_Now.Controllers
 
             return View();
         }
+
         public IActionResult Show(int id)
         {
             Intrebare intrebari = db.Intrebari.Include("Categorie")
-                                         .Include("Raspuns")
+                                         .Include("Raspunsuri")
                                          .Include("Utilizator")
                               .Where(art => art.IntrebareId == id)
                               .First();
@@ -77,6 +78,7 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User,Admin")]
         public IActionResult Show([FromForm] Raspuns raspuns)
         {
             raspuns.Data = DateTime.Now;
@@ -94,7 +96,7 @@ namespace Ask_Me_Now.Controllers
             {
                 Intrebare art = db.Intrebari.Include("Categorie")
                                          .Include("Utilizator")
-                                         .Include("Raspuns")
+                                         .Include("Raspunsuri")
                                          .Where(art => art.IntrebareId == raspuns.IntrebareId)
                                          .First();
                 SetAccessRights();
@@ -207,7 +209,7 @@ namespace Ask_Me_Now.Controllers
         [Authorize(Roles = "User,Admin")]
         public ActionResult Delete(int id)
         {
-            Intrebare intrebare = db.Intrebari.Include("Raspuns")
+            Intrebare intrebare = db.Intrebari.Include("Raspunsuri")
                                          .Where(art => art.IntrebareId == id)
                                          .First();
 
@@ -231,12 +233,7 @@ namespace Ask_Me_Now.Controllers
         // butoanele aflate in view-uri
         private void SetAccessRights()
         {
-            ViewBag.AfisareButoane = false;
-
-            if (User.IsInRole("User"))
-            {
-                ViewBag.AfisareButoane = true;
-            }
+            ViewBag.AfisareButoane = true;
 
             ViewBag.UserCurent = _userManager.GetUserId(User);
 
