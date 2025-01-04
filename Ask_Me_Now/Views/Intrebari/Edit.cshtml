@@ -11,6 +11,24 @@
         <label asp-for="Continut" class="form-label">Continut intrebare</label>
         <input asp-for="Continut" class="form-control" />
         <span asp-validation-for="Continut" class="text-danger"></span>
+
+        @*Posibilitatea editarii categoriei pentru administratori*@
+        @if (User.IsInRole("Admin"))
+        {
+
+            <div class="form-group">
+                <label for="CategorieId">Selectati categoria</label>
+                <br />
+                <select asp-for="CategorieId" asp-items="Model.Categ" class="form-control">
+                    <option value="">Selectati categoria</option>
+                </select>
+
+                <!-- Mesaj de validare pentru CategoryId -->
+                <span asp-validation-for="CategorieId" class="text-danger"></span>
+
+                <br />
+             </div>
+        }
     </div>
 
     <br />

@@ -9,10 +9,10 @@ namespace Ask_Me_Now.Models
     {
         //PROFIL
 
-        //[Required(ErrorMessage = "Numele profilului este obligatoriu!")]
-        //[MinLength(3, ErrorMessage = "Numele nu poate avea mai putin de 3 caractere!")]
-        //[MaxLength(25, ErrorMessage = "Numele nu poate avea mai mult de 25 de caractere!")]
-        //public string Nume { get; set; }
+       
+        [MinLength(3, ErrorMessage = "Porecla nu poate avea mai putin de 3 caractere!")]
+        [MaxLength(25, ErrorMessage = "Porecla nu poate avea mai mult de 25 de caractere!")]
+        public string? Porecla { get; set; }
 
         //[Required(ErrorMessage = "Emailul este obligatoriu!")]
         //[EmailAddress(ErrorMessage = "Emailul trebuie sa respecte formatul specific emailurilor!")]
@@ -31,6 +31,11 @@ namespace Ask_Me_Now.Models
 
         // un user poate posta mai multe raspunsuri
         public virtual ICollection<Raspuns>? Raspunsuri { get; set; }
+
+        // variabila in care vom retine rolurile existente in baza de date
+        // pentru popularea unui dropdown list
+        [NotMapped]
+        public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
     }
 }

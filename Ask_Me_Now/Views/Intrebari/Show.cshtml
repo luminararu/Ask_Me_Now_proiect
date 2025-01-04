@@ -81,43 +81,45 @@
 
 
 @* Afisarea formularului in care se poate adauga un raspuns *@
+@if (User.IsInRole("Admin") || User.IsInRole("User"))
+{
+    <div class="container">
 
-<div class="container">
+        <div class="row">
 
-    <div class="row">
+            <div class="col-md-2"></div>
 
-        <div class="col-md-2"></div>
+            <div class="col-md-8">
 
-        <div class="col-md-8">
+                <div class="card">
 
-            <div class="card">
+                    <form method="post" asp-controller="Intrebari" asp-action="Show">
 
-                <form method="post" asp-controller="Intrebari" asp-action="Show">
+                        <div class="card-body">
 
-                    <div class="card-body">
+                            <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
 
-                        <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
+                            <label>Adauga un raspuns</label>
+                            <br />
 
-                        <label>Adauga un raspuns</label>
-                        <br />
+                            <textarea class="form-control" name="Continut"></textarea>
 
-                        <textarea class="form-control" name="Continut"></textarea>
+                            <span asp-validation-for="Continut" class="text-danger"></span>
+                            <br /><br />
 
-                        <span asp-validation-for="Continut" class="text-danger"></span>
-                        <br /><br />
+                            <button class="btn btn-success" type="submit">Adauga raspunsul</button>
 
-                        <button class="btn btn-success" type="submit">Adauga raspunsul</button>
+                        </div>
 
-                    </div>
+                    </form>
 
-                </form>
+                </div>
 
             </div>
 
+            <div class="col-md-2"></div>
+
         </div>
 
-        <div class="col-md-2"></div>
-
     </div>
-
-</div>
+}
