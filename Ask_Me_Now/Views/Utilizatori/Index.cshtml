@@ -11,9 +11,9 @@
             <div class="card-body d-flex justify-content-between flex-column">
                 <div>
 
-                    @if (@user.Porecla != null)
+                    @if (@user.Prenume != null && @user.Nume!=null)
                     {
-                        <p><i class="bi bi-person"> </i> Nume de utilizator: @user.Porecla</p>
+                        <p><i class="bi bi-person"> </i> Nume de utilizator: @user.Nume @user.Prenume</p>
                     }
                     else
                     {
@@ -45,9 +45,10 @@
 
                     @if(User.IsInRole("Admin"))
                     {
-                        <div>
-                            <a asp-controller="Utilizatori" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-success">Stergere utilizator</a>
-                        </div>
+               
+                        <form asp-controller="Utilizatori" asp-action="Delete" method="post" asp-route-id="@user.Id">
+                            <button type="submit" class="btn btn-sm btn-success">Stergere utilizator</button>
+                        </form>
                     }
                 </div>
             </div>

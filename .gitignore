@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignoră fișierele generate de scaffolding
+/Areas/Identity/Pages/Account/_ManageNav.cshtml

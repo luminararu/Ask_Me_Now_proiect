@@ -44,6 +44,18 @@ namespace Ask_Me_Now.Controllers
 
             ViewBag.UserCurent = await _userManager.GetUserAsync(User);
 
+            //activitate recenta
+            ViewBag.IntrebariRecente = db.Intrebari
+                                     .Where(a => a.UserId == user.Id)
+                                     .OrderByDescending(a => a.Data)
+                                     .Take(3) 
+                                     .ToList();
+
+            ViewBag.RaspunsuriRecente = db.Raspunsuri
+                                     .Where(a => a.UserId == user.Id)
+                                     .OrderByDescending(a => a.Data)
+                                     .Take(3)
+                                     .ToList();
             return View(user);
         }
 
@@ -74,9 +86,11 @@ namespace Ask_Me_Now.Controllers
 
             if (ModelState.IsValid)
             {
-                user.Porecla = newData.Porecla;
+                user.Nume = newData.Nume;
+                user.Prenume = newData.Prenume;
                 user.Email = newData.Email;
                 user.PhoneNumber = newData.PhoneNumber;
+                user.Descriere = newData.Descriere;
 
                 // Cautam toate rolurile din baza de date
                 var roles = db.Roles.ToList();

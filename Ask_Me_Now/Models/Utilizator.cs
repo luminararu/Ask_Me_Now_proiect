@@ -10,9 +10,13 @@ namespace Ask_Me_Now.Models
         //PROFIL
 
        
-        [MinLength(3, ErrorMessage = "Porecla nu poate avea mai putin de 3 caractere!")]
-        [MaxLength(25, ErrorMessage = "Porecla nu poate avea mai mult de 25 de caractere!")]
-        public string? Porecla { get; set; }
+        [MinLength(1, ErrorMessage = "Numele nu poate avea mai putin de un caracter!")]
+        [MaxLength(25, ErrorMessage = "Numele nu poate avea mai mult de 25 de caractere!")]
+        public string? Nume { get; set; }
+
+        [MinLength(1, ErrorMessage = "Prenumele nu poate avea mai putin de un caracter!")]
+        [MaxLength(25, ErrorMessage = "Prenumele nu poate avea mai mult de 25 de caractere!")]
+        public string? Prenume { get; set; }
 
         //[Required(ErrorMessage = "Emailul este obligatoriu!")]
         //[EmailAddress(ErrorMessage = "Emailul trebuie sa respecte formatul specific emailurilor!")]
