@@ -62,10 +62,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Categorii}/{action=Index}/{id?}");
-app.MapRazorPages();
+
 
 app.Run();
 

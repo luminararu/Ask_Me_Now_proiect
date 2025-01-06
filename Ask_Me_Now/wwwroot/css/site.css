@@ -212,3 +212,34 @@ h2{
     font-weight: 600;
     border-radius: 4em;
 }
+
+/*Profil*/
+. col-md-12 .d-flex 
+{
+    display: flex; 
+    gap:20px;
+}
+.col-md-12 .d-flex a:hover
+{   
+    background-color:cadetblue;
+    color:navajowhite;
+    padding:9px;
+}
+.col-md-12 .d-flex a
+{
+    color:rgb(21,27,98);
+    background-color:#fdd09b;
+}
+.col-md-12 .d-flex #profile-form {
+        flex: 1;
+        margin-right:15px;
+    }
+.col-md-12 .d-flex .activitate-recenta {
+        flex: 1;
+        background-color: bisque;
+        border-radius: 10%;
+        padding: 10px;
+    }
+.col-md-12 .d-flex .activitate-recenta h2 {
+        color: darksalmon;
+    }

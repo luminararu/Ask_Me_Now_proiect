@@ -15,14 +15,17 @@ namespace Ask_Me_Now.Controllers
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        private readonly SignInManager<Utilizator> _signInManager;
         public UtilizatoriController(
             ApplicationDbContext context,
             UserManager<Utilizator> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<Utilizator> signInManager)
         {
             db = context;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
@@ -112,7 +115,7 @@ namespace Ask_Me_Now.Controllers
 
 
         [HttpPost]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> DeleteAsync(string id)
         {
             var user = db.Users
                          .Include("Intrebari")
@@ -143,7 +146,17 @@ namespace Ask_Me_Now.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            if(User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToPage("/Identity/Account/Register");
+
+            }
+            
         }
 
 

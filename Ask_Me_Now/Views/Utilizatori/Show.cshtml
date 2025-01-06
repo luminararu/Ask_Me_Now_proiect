@@ -49,7 +49,7 @@ else
             {
                     @foreach (var intrebare in ViewBag.IntrebariRecente)
                     {
-                           <p>@intrebare.Continut - @intrebare.Data</p>
+                    <p><a href="@Url.Action("Show", "Intrebari", new { id = intrebare.IntrebareId })">@intrebare.Continut - @intrebare.Data</a></p>
                     }
             }
             else
@@ -62,7 +62,7 @@ else
             {
                     @foreach (var raspuns in ViewBag.RaspunsuriRecente)
                     {
-                           <p>@raspuns.Continut - @raspuns.Data</p>
+                    <p><a href="@Url.Action("Show", "Intrebari", new { id = raspuns.IntrebareId })">@raspuns.Continut - @raspuns.Data</a></p>
                         
                     }
             }

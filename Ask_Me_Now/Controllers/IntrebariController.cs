@@ -56,7 +56,9 @@ namespace Ask_Me_Now.Controllers
 
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
             ViewBag.Intrebari = intrebariPaginate;
-
+            var baseUrl = $"/Intrebari/Index?page=";
+            ViewBag.PaginationBaseUrl = baseUrl;
+            ViewBag.CurrentPage = currentPage;
             return View();
         }
 

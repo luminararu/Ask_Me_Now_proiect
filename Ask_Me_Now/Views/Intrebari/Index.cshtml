@@ -5,6 +5,8 @@
 <h2>@ViewBag.Title</h2>
 <br />
 <a class="btn btn-success" asp-controller="Intrebari" asp-action="New">Adauga o noua intrebare</a>
+<p>Pentru a pastra confidentialitatea utilizatorilor nostri, autorul intrebarii nu este afisat!</p>
+<p>Pastram confidentialitatea dumneavoastra pentru a va simti in siguranta in aceasta aplicatie si pentru a va simti liberi sa va hraniti curiozitatile!</p>
 <hr />
 
 @if (TempData.ContainsKey("message"))
@@ -24,4 +26,33 @@
         <br />
     
 }
+
+
+@* Afisarea paginata a intrebarilor *@
+
+<div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl@(ViewBag.CurrentPage - 1)" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@ViewBag.PaginationBaseUrl@i">@(i)</a>
+                </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 

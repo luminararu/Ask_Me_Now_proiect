@@ -6,22 +6,27 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Ask_Me_Now.Data;
 using Ask_Me_Now.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
+        private readonly ApplicationDbContext db;
         private readonly UserManager<Utilizator> _userManager;
         private readonly SignInManager<Utilizator> _signInManager;
 
         public IndexModel(
+            ApplicationDbContext context,
             UserManager<Utilizator> userManager,
             SignInManager<Utilizator> signInManager)
         {
+            db = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -45,6 +50,9 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
         public string UserRoles { get; set; }
 
         public string UserId { get; set; }
+
+        public List<Intrebare> IntrebariRecente { get; set; }
+        public List<Raspuns> RaspunsuriRecente { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -90,7 +98,7 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var userId = _userManager.GetUserId(User);
+            var userId = user.Id;
             var nume = user.Nume;
             var prenume = user.Prenume;
             var descriere = user.Descriere;
@@ -101,6 +109,18 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
             Username = userName;
             UserId=userId;
 
+            //activitate recenta
+            IntrebariRecente = db.Intrebari
+                               .Where(a => a.UserId == user.Id)
+                               .OrderByDescending(a => a.Data)
+                               .Take(3)
+                               .ToList();
+
+           RaspunsuriRecente = db.Raspunsuri
+                                     .Where(a => a.UserId == user.Id)
+                                     .OrderByDescending(a => a.Data)
+                                     .Take(3)
+                                     .ToList();
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber,
@@ -122,27 +142,6 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
 
             await LoadAsync(user);
             return Page();
-        }
-
-        //stergere cont
-        public async Task<IActionResult> OnPostDeleteAsync(string id)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound($"Nu s-a putut gasi utilizatorul cu ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            var result = await _userManager.DeleteAsync(user);
-
-            if (!result.Succeeded)
-            {
-                StatusMessage = "Eroare la stergerea contului.";
-                return RedirectToPage();
-            }
-
-            StatusMessage = "Contul a fost sters cu succes.";
-            return RedirectToPage("/Register"); 
         }
 
         public async Task<IActionResult> OnPostAsync()
