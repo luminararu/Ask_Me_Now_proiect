@@ -56,11 +56,10 @@ namespace Ask_Me_Now.Controllers
 
                 var intrebari = categorie.Intrebari.AsQueryable();
 
-                var search = "";
+            var search = Convert.ToString(HttpContext.Request.Query["search"])?.Trim() ?? "";
 
-                if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            if (!string.IsNullOrEmpty(search))
                 {
-                    search = Convert.ToString(HttpContext.Request.Query["search"]).Trim(); // eliminam spatiile libere 
 
                     // Cautare in articol (Title si Content)
 
@@ -92,10 +91,23 @@ namespace Ask_Me_Now.Controllers
 
 
                 ViewBag.SearchString = search;
-         
 
-                /*AFISARE PAGINATA*/
-                int _perPage = 3;
+                /* SORTARE */
+                var sortOrder = HttpContext.Request.Query["sortOrder"].FirstOrDefault()?.ToLower() ?? "date";
+                switch (sortOrder)
+                {
+                    case "popularity":
+                        intrebari = intrebari.OrderByDescending(intrebare => intrebare.Raspunsuri.Sum(r => r.Likes - r.Dislikes));
+                        break;
+                    case "date":
+                    default:
+                        intrebari = intrebari.OrderByDescending(intrebare => intrebare.Data);
+                        break;
+                }
+                ViewBag.SortOrder = sortOrder;
+
+            /*AFISARE PAGINATA*/
+            int _perPage = 3;
                 int total = intrebari.Count();
                 
                 var currentPageString = HttpContext.Request.Query["page"].FirstOrDefault();
@@ -119,7 +131,15 @@ namespace Ask_Me_Now.Controllers
                 ViewBag.Intrebari = intrebariPaginate;
 
                 var baseUrl = $"/Categorii/Show/{id}?page";
-                ViewBag.PaginationBaseUrl = baseUrl;
+                if (!string.IsNullOrEmpty(search))
+                {
+                    baseUrl = $"/Categorii/Show/{id}?search={search}&page";
+                }
+                if (!string.IsNullOrEmpty(sortOrder))
+                {
+                    baseUrl = $"/Categorii/Show/{id}?sortOrder={sortOrder}&page";
+                }
+            ViewBag.PaginationBaseUrl = baseUrl;
                 ViewBag.CurrentPage = currentPage;
 
                 return View(categorie);

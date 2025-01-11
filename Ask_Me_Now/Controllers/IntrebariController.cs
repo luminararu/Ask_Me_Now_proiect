@@ -104,7 +104,12 @@ namespace Ask_Me_Now.Controllers
             int _perPage = 3;
             int totalItems = intrebari.Count();
 
-            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+            var currentPageString = HttpContext.Request.Query["page"].FirstOrDefault();
+            int currentPage = 1; // default
+            if (!string.IsNullOrEmpty(currentPageString) && int.TryParse(currentPageString, out int result))
+            {
+                currentPage = result;
+            }
             var offset = 0;
             // Se calculeaza offsetul in functie de numarul paginii la care suntem
             if (!currentPage.Equals(0))
@@ -117,10 +122,24 @@ namespace Ask_Me_Now.Controllers
 
             ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
             ViewBag.Intrebari = intrebariPaginate;
-            var baseUrl = $"/Intrebari/Index?page=";
+
+            
+            var baseUrl = $"/Intrebari/Index?";
+            if (!string.IsNullOrEmpty(search))
+            {
+                baseUrl += $"search={search}&";
+            }
+            if (!string.IsNullOrEmpty(sortOrder))
+            {
+                baseUrl += $"sortOrder={sortOrder}&";
+            }
+            baseUrl += "page=";
+
             ViewBag.PaginationBaseUrl = baseUrl;
             ViewBag.CurrentPage = currentPage;
+
             return View();
+
         }
 
         public IActionResult Show(int id, string sortOrder = "date")
@@ -139,8 +158,8 @@ namespace Ask_Me_Now.Controllers
             }
             return View(intrebari);*/
 
-            // Preluăm întrebarea împreună cu răspunsurile asociate
-            // Setăm drepturile de acces
+            // Preluam intrebarea cu raspunsurile asociate
+            // Setam drepturile de acces
             Intrebare intrebare = db.Intrebari
                                     .Include("Categorie")
                                     .Include("Utilizator")
@@ -153,7 +172,7 @@ namespace Ask_Me_Now.Controllers
                 return NotFound();
             }
 
-            // Sortarea răspunsurilor în funcție de criteriul specificat
+            // Sortarea rsspunsurilor in functie de criteriul specificat
             switch (sortOrder.ToLower())
             {
                 case "popularity":
@@ -172,7 +191,7 @@ namespace Ask_Me_Now.Controllers
             // Transmitem criteriul de sortare către view pentru a fi utilizat
             ViewBag.SortOrder = sortOrder;
 
-            // Setăm drepturile de acces
+            // Setam drepturile de acces
             SetAccessRights();
 
             if (TempData.ContainsKey("message"))

@@ -16,9 +16,9 @@
     || ViewBag.EsteAdmin == true)
     {
         <div class="d-flex flex-row justify-content-center">
-            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editează întrebarea</a>
+            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editeaza intrebarea</a>
             <form method="post" asp-controller="Intrebari" asp-action="Delete" asp-route-id="@Model.IntrebareId">
-                <button class="btn btn-danger" type="submit">Șterge întrebarea</button>
+                <button class="btn btn-danger" type="submit">Sterge intrebarea</button>
             </form>
             <br />
         </div>
@@ -30,7 +30,7 @@
 
 
 <div class="d-flex justify-content-end mb-3">
-    <label class="me-2">Sortează după:</label>
+    <label class="me-2">Sorteaza dupa:</label>
     <div class="btn-group">
         @{
             var sortByDate = Url.Action("Show", "Intrebari", new { id = Model.IntrebareId, sortOrder = "date" });
@@ -39,14 +39,14 @@
             var isDateActive = ViewBag.SortOrder == "date" ? "active" : "";
             var isPopularityActive = ViewBag.SortOrder == "popularity" ? "active" : "";
         }
-        <a href="@sortByDate" class="btn btn-outline-primary @isDateActive">După dată</a>
-        <a href="@sortByPopularity" class="btn btn-outline-primary @isPopularityActive">După popularitate</a>
+        <a href="@sortByDate" class="btn btn-outline-primary @isDateActive">Dupa data</a>
+        <a href="@sortByPopularity" class="btn btn-outline-primary @isPopularityActive">Dupa popularitate</a>
     </div>
 </div>
 
 
 
-@* Afișare răspunsuri împreună cu butoanele de editare și ștergere *@
+@* Afisare raspunsuri impreună cu butoanele de editare si stergere *@
 @foreach (var comm in Model.Raspunsuri)
 {
     <div class="container">
@@ -83,12 +83,12 @@
                     <div class="d-flex">
                         <div>
                             <a class="btn btn-outline-primary" asp-controller="Raspunsuri" asp-action="Edit" asp-route-id="@comm.RaspunsId">
-                                <i class="bi bi-pencil-square"></i> Editează
+                                <i class="bi bi-pencil-square"></i> Editeaza
                             </a>
                         </div>
                         <div>
                             <form method="post" asp-controller="Raspunsuri" asp-action="Delete" asp-route-id="@comm.RaspunsId">
-                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Șterge</button>
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
                             </form>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                         <div class="card-body">
                             <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
 
-                            <label>Adaugă un răspuns</label>
+                            <label>Adauga un raspuns</label>
                             <br />
 
                             <textarea class="form-control" name="Continut"></textarea>
@@ -123,7 +123,7 @@
                             <span asp-validation-for="Continut" class="text-danger"></span>
                             <br /><br />
 
-                            <button class="btn btn-success" type="submit">Adaugă răspunsul</button>
+                            <button class="btn btn-success" type="submit">Adauga raspunsul</button>
                         </div>
                     </form>
                 </div>
