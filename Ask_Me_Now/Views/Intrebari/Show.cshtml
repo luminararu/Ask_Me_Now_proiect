@@ -1,7 +1,5 @@
 ﻿@model Ask_Me_Now.Models.Intrebare
 
-
-
 @if (TempData["message"] != null)
 {
     <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
@@ -10,18 +8,17 @@
 }
 
 <br />
- 
-<div class="card">
 
+<div class="card">
     <p>Intrebarea este:</p>
     <p>@Model.Continut</p>
     @if ((ViewBag.AfisareButoane == true && Model.UserId == ViewBag.UserCurent)
     || ViewBag.EsteAdmin == true)
     {
         <div class="d-flex flex-row justify-content-center">
-            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editeaza intrebarea</a>
+            <a class="btn btn-success" asp-controller="Intrebari" asp-action="Edit" asp-route-id="@Model.IntrebareId">Editează întrebarea</a>
             <form method="post" asp-controller="Intrebari" asp-action="Delete" asp-route-id="@Model.IntrebareId">
-                <button class="btn btn-danger" type="submit">Sterge intrebarea</button>
+                <button class="btn btn-danger" type="submit">Șterge întrebarea</button>
             </form>
             <br />
         </div>
@@ -31,8 +28,25 @@
 <br />
 <br />
 
-@* Afisare raspunsuri impreuna cu butoanele de editare si stergere *@
 
+<div class="d-flex justify-content-end mb-3">
+    <label class="me-2">Sortează după:</label>
+    <div class="btn-group">
+        @{
+            var sortByDate = Url.Action("Show", "Intrebari", new { id = Model.IntrebareId, sortOrder = "date" });
+            var sortByPopularity = Url.Action("Show", "Intrebari", new { id = Model.IntrebareId, sortOrder = "popularity" });
+
+            var isDateActive = ViewBag.SortOrder == "date" ? "active" : "";
+            var isPopularityActive = ViewBag.SortOrder == "popularity" ? "active" : "";
+        }
+        <a href="@sortByDate" class="btn btn-outline-primary @isDateActive">După dată</a>
+        <a href="@sortByPopularity" class="btn btn-outline-primary @isPopularityActive">După popularitate</a>
+    </div>
+</div>
+
+
+
+@* Afișare răspunsuri împreună cu butoanele de editare și ștergere *@
 @foreach (var comm in Model.Raspunsuri)
 {
     <div class="container">
@@ -40,13 +54,27 @@
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-
                 <div>
-
                     <p>@comm.Continut</p>
-                    <small>@comm.Data</small>
-                    <strong><i class="bi bi-person"><a href="@Url.Action("Show", "Utilizatori", new { id = comm.UserId })">@comm.UserId</a> </i></strong>
+                    <small>@comm.Data.ToString("dd-MM-yyyy HH:mm")</small>
+                    <strong><i class="bi bi-person"><a href="@Url.Action("Show", "Utilizatori", new { id = comm.UserId })">@comm.UserId</a></i></strong>
+                    <p><strong>Like-uri:</strong> @comm.Likes | <strong>Dislike-uri:</strong> @comm.Dislikes</p>
 
+                    <div class="d-flex gap-3">
+                        <!-- Buton Like -->
+                        <form method="post" asp-controller="Raspunsuri" asp-action="Like" asp-route-id="@comm.RaspunsId">
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="bi bi-hand-thumbs-up"></i> Like
+                            </button>
+                        </form>
+
+                        <!-- Buton Dislike -->
+                        <form method="post" asp-controller="Raspunsuri" asp-action="Dislike" asp-route-id="@comm.RaspunsId">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-hand-thumbs-down"></i> Dislike
+                            </button>
+                        </form>
+                    </div>
                 </div>
                 <br>
 
@@ -55,15 +83,12 @@
                     <div class="d-flex">
                         <div>
                             <a class="btn btn-outline-primary" asp-controller="Raspunsuri" asp-action="Edit" asp-route-id="@comm.RaspunsId">
-                                <i class="bi bi-pencil-square"></i> Editeaza
+                                <i class="bi bi-pencil-square"></i> Editează
                             </a>
-
                         </div>
                         <div>
                             <form method="post" asp-controller="Raspunsuri" asp-action="Delete" asp-route-id="@comm.RaspunsId">
-
-                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
-
+                                <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Șterge</button>
                             </form>
                         </div>
                     </div>
@@ -73,33 +98,24 @@
             </div>
 
             <div class="col-md-2"></div>
-
         </div>
-
     </div>
 }
 
-
-@* Afisarea formularului in care se poate adauga un raspuns *@
+@* Afișarea formularului în care se poate adăuga un răspuns *@
 @if (User.IsInRole("Admin") || User.IsInRole("User"))
 {
     <div class="container">
-
         <div class="row">
-
             <div class="col-md-2"></div>
 
             <div class="col-md-8">
-
                 <div class="card">
-
                     <form method="post" asp-controller="Intrebari" asp-action="Show">
-
                         <div class="card-body">
-
                             <input type="hidden" name="IntrebareId" value="@Model.IntrebareId" />
 
-                            <label>Adauga un raspuns</label>
+                            <label>Adaugă un răspuns</label>
                             <br />
 
                             <textarea class="form-control" name="Continut"></textarea>
@@ -107,19 +123,13 @@
                             <span asp-validation-for="Continut" class="text-danger"></span>
                             <br /><br />
 
-                            <button class="btn btn-success" type="submit">Adauga raspunsul</button>
-
+                            <button class="btn btn-success" type="submit">Adaugă răspunsul</button>
                         </div>
-
                     </form>
-
                 </div>
-
             </div>
 
             <div class="col-md-2"></div>
-
         </div>
-
     </div>
 }

@@ -15,6 +15,36 @@
 }
 <br />
 
+
+
+@* Motorul de cautare *@
+<form method="GET">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search topics or keywords" name="search"
+               value="@ViewBag.SearchString">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </div>
+</form>
+
+
+<div class="d-flex justify-content-end mb-3">
+    <label class="me-2">Sortează după:</label>
+    <div class="btn-group">
+        @{
+            var sortByDate = Url.Action("Index", "Intrebari", new { sortOrder = "date" });
+            var sortByPopularity = Url.Action("Index", "Intrebari", new { sortOrder = "popularity" });
+
+            var isDateActive = ViewBag.SortOrder == "date" ? "active" : "";
+            var isPopularityActive = ViewBag.SortOrder == "popularity" ? "active" : "";
+        }
+        <a href="@sortByDate" class="btn btn-outline-primary @isDateActive">După dată</a>
+        <a href="@sortByPopularity" class="btn btn-outline-primary @isPopularityActive">După popularitate</a>
+    </div>
+</div>
+
+
+
+
 @foreach (Ask_Me_Now.Models.Intrebare intrebare in ViewBag.Intrebari)
 {
     <div class="form-group">

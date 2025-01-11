@@ -1,10 +1,12 @@
 ﻿using Ask_Me_Now.Data;
+using Ask_Me_Now.Data.Migrations;
 using Ask_Me_Now.Models;
 using Ganss.Xss;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ask_Me_Now.Controllers
@@ -27,7 +29,7 @@ namespace Ask_Me_Now.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder = "date")
         {
             var intrebari = db.Intrebari.Include("Categorie")
                                         .Include("Utilizator")
@@ -38,6 +40,65 @@ namespace Ask_Me_Now.Controllers
                 ViewBag.Message = TempData["message"];
                 ViewBag.Alert = TempData["messageType"];
             }
+
+
+            var search = "";
+
+            if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+            {
+                search = Convert.ToString(HttpContext.Request.Query["search"]).Trim(); // eliminam spatiile libere 
+
+                // Cautare in articol (Title si Content)
+
+                List<int> IntrebariIds = db.Intrebari.Where
+                                        (
+                                         at => at.Continut.Contains(search)
+                                        ).Select(a => a.IntrebareId).ToList();
+
+                // Cautare in comentarii (Content)
+                List<int> articleIdsOfCommentsWithSearchString = db.Raspunsuri
+                                        .Where
+                                        (
+                                         c => c.Continut.Contains(search)
+                                        ).Select(c => (int)c.IntrebareId).ToList();
+
+                // Se formeaza o singura lista formata din toate id-urile selectate anterior
+                List<int> mergedIds = IntrebariIds.Union(articleIdsOfCommentsWithSearchString).ToList();
+
+
+                // Lista articolelor care contin cuvantul cautat
+                // fie in articol -> Title si Content
+                // fie in comentarii -> Content
+
+               
+                intrebari = db.Intrebari.Where(intrebare => mergedIds.Contains(intrebare.IntrebareId))
+                                .Include("Categorie")
+                                .Include("Utilizator")
+                                .OrderByDescending(a => a.Data);
+                    
+
+                }
+
+
+
+
+
+            ViewBag.SearchString = search;
+
+            // Sortarea răspunsurilor în funcție de criteriul specificat
+            switch (sortOrder.ToLower())
+            {
+                case "popularity":
+                    intrebari = intrebari
+                        .OrderByDescending(intrebare => intrebare.Raspunsuri.Count());
+                    break;
+                case "date":
+                default:
+                    intrebari = intrebari
+                        .OrderByDescending(intrebare => intrebare.Data);
+                    break;
+            }
+
 
             // Afisam 3 articole pe pagina
             int _perPage = 3;
@@ -62,9 +123,9 @@ namespace Ask_Me_Now.Controllers
             return View();
         }
 
-        public IActionResult Show(int id)
+        public IActionResult Show(int id, string sortOrder = "date")
         {
-            Intrebare intrebari = db.Intrebari.Include("Categorie")
+            /*Intrebare intrebari = db.Intrebari.Include("Categorie")
                                          .Include("Raspunsuri")
                                          .Include("Utilizator")
                               .Where(art => art.IntrebareId == id)
@@ -76,7 +137,53 @@ namespace Ask_Me_Now.Controllers
                 ViewBag.Message = TempData["message"];
                 ViewBag.Alert = TempData["messageType"];
             }
-            return View(intrebari);
+            return View(intrebari);*/
+
+            // Preluăm întrebarea împreună cu răspunsurile asociate
+            // Setăm drepturile de acces
+            Intrebare intrebare = db.Intrebari
+                                    .Include("Categorie")
+                                    .Include("Utilizator")
+                                    .Include(r => r.Raspunsuri)
+                                    .Where(art => art.IntrebareId == id)
+                                    .FirstOrDefault();
+
+            if (intrebare == null)
+            {
+                return NotFound();
+            }
+
+            // Sortarea răspunsurilor în funcție de criteriul specificat
+            switch (sortOrder.ToLower())
+            {
+                case "popularity":
+                    intrebare.Raspunsuri = intrebare.Raspunsuri
+                        .OrderByDescending(r => r.Likes - r.Dislikes)
+                        .ToList();
+                    break;
+                case "date":
+                default:
+                    intrebare.Raspunsuri = intrebare.Raspunsuri
+                        .OrderByDescending(r => r.Data)
+                        .ToList();
+                    break;
+            }
+
+            // Transmitem criteriul de sortare către view pentru a fi utilizat
+            ViewBag.SortOrder = sortOrder;
+
+            // Setăm drepturile de acces
+            SetAccessRights();
+
+            if (TempData.ContainsKey("message"))
+            {
+                ViewBag.Message = TempData["message"];
+                ViewBag.Alert = TempData["messageType"];
+            }
+
+            return View(intrebare);
+
+
         }
 
         [HttpPost]

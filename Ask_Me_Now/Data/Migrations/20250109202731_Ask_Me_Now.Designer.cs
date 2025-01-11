@@ -4,6 +4,7 @@ using Ask_Me_Now.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ask_Me_Now.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250109202731_Ask_Me_Now")]
+    partial class Ask_Me_Now
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,35 +200,6 @@ namespace Ask_Me_Now.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Ask_Me_Now.Models.UtilizatorInteractiune", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Liked")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RaspunsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UtilizatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RaspunsId");
-
-                    b.HasIndex("UtilizatorId");
-
-                    b.ToTable("UtilizatorInteractiune");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -389,23 +363,6 @@ namespace Ask_Me_Now.Data.Migrations
                         .HasForeignKey("UtilizatorId");
 
                     b.Navigation("Intrebare");
-
-                    b.Navigation("Utilizator");
-                });
-
-            modelBuilder.Entity("Ask_Me_Now.Models.UtilizatorInteractiune", b =>
-                {
-                    b.HasOne("Ask_Me_Now.Models.Raspuns", "Raspuns")
-                        .WithMany()
-                        .HasForeignKey("RaspunsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Ask_Me_Now.Models.Utilizator", "Utilizator")
-                        .WithMany()
-                        .HasForeignKey("UtilizatorId");
-
-                    b.Navigation("Raspuns");
 
                     b.Navigation("Utilizator");
                 });

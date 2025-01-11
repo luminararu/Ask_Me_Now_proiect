@@ -45,15 +45,58 @@ namespace Ask_Me_Now.Controllers
                                                    .Include("Intrebari.Raspunsuri")
                                         .Where(cat => cat.CategorieId == id)
                                         .FirstOrDefault();
+
+
+                 
                 if (TempData.ContainsKey("message"))
                 {
                     ViewBag.Message = TempData["message"];
                     ViewBag.Alert = TempData["messageType"];
                 }
 
+                var intrebari = categorie.Intrebari.AsQueryable();
+
+                var search = "";
+
+                if (Convert.ToString(HttpContext.Request.Query["search"]) != null)
+                {
+                    search = Convert.ToString(HttpContext.Request.Query["search"]).Trim(); // eliminam spatiile libere 
+
+                    // Cautare in articol (Title si Content)
+
+                    List<int> IntrebariIds = db.Intrebari.Where
+                                            (
+                                             at => at.Continut.Contains(search)
+                                            ).Select(a => a.IntrebareId).ToList();
+
+                    // Cautare in comentarii (Content)
+                    List<int> articleIdsOfCommentsWithSearchString = db.Raspunsuri
+                                            .Where
+                                            (
+                                             c => c.Continut.Contains(search)
+                                            ).Select(c => (int)c.IntrebareId).ToList();
+
+                    // Se formeaza o singura lista formata din toate id-urile selectate anterior
+                    List<int> mergedIds = IntrebariIds.Union(articleIdsOfCommentsWithSearchString).ToList();
+
+
+                    // Lista articolelor care contin cuvantul cautat
+                    // fie in articol -> Title si Content
+                    // fie in comentarii -> Content
+                    intrebari = db.Intrebari.Where(intrebare => mergedIds.Contains(intrebare.IntrebareId) && intrebare.CategorieId == id)
+                                          .Include("Categorie")
+                                          .Include("Utilizator")
+                                          .OrderByDescending(a => a.Data);
+
+                }
+
+
+                ViewBag.SearchString = search;
+         
+
                 /*AFISARE PAGINATA*/
                 int _perPage = 3;
-                int total = categorie.Intrebari.Count();
+                int total = intrebari.Count();
                 
                 var currentPageString = HttpContext.Request.Query["page"].FirstOrDefault();
                 int currentPage = 1; // default
@@ -70,7 +113,7 @@ namespace Ask_Me_Now.Controllers
                 }
                 // Se preiau intrebarile corespunzatoare pentru fiecare pagina la care ne aflam 
                 // in functie de offset
-                var intrebariPaginate = categorie.Intrebari.Skip(offset).Take(_perPage);
+                var intrebariPaginate = intrebari.Skip(offset).Take(_perPage);
 
                 ViewBag.lastPage = Math.Ceiling((float)total / (float)_perPage);
                 ViewBag.Intrebari = intrebariPaginate;

@@ -15,5 +15,7 @@ namespace Ask_Me_Now.Data
         public DbSet<Categorie> Categorii { get; set; }
         public DbSet<Intrebare> Intrebari { get; set; }
         public DbSet<Raspuns> Raspunsuri { get; set; }
+
+        public DbSet<UtilizatorInteractiune> UtilizatorInteractiune { get; set; }
     }
 }
