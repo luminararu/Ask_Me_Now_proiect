@@ -1,4 +1,5 @@
 ﻿using Ask_Me_Now.Data;
+using Ask_Me_Now.Data.Migrations;
 using Ask_Me_Now.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -80,7 +81,7 @@ namespace Ask_Me_Now.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(string id, Utilizator newData, [FromForm] string newRole)
+        public async Task<ActionResult> Edit(string id, Utilizator newData, [FromForm] string newRole, [FromForm] IFormFile PozaProfil)
         {
             Utilizator user = db.Users.Find(id);
 
@@ -94,7 +95,21 @@ namespace Ask_Me_Now.Controllers
                 user.Email = newData.Email;
                 user.PhoneNumber = newData.PhoneNumber;
                 user.Descriere = newData.Descriere;
+                if (PozaProfil != null && PozaProfil.Length > 0)
+                {
+                    // nume fisier
+                    var fileName = Path.GetFileName(PozaProfil.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
 
+                    // salvare fisier pe server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await PozaProfil.CopyToAsync(stream);
+                    }
+
+                    // Salvează calea fișierului în baza de date
+                    user.PozaProfil = "/images/" + fileName;
+                }
                 // Cautam toate rolurile din baza de date
                 var roles = db.Roles.ToList();
 

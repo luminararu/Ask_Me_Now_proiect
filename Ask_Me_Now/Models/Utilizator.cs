@@ -41,5 +41,7 @@ namespace Ask_Me_Now.Models
         [NotMapped]
         public IEnumerable<SelectListItem>? AllRoles { get; set; }
 
+        public string? PozaProfil { get; set; }
+
     }
 }

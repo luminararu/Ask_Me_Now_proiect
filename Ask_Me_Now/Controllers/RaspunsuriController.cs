@@ -107,7 +107,7 @@ namespace ArticlesApp.Controllers
 
                     db.SaveChanges();
 
-                    return Redirect("/Articles/Show/" + raspuns.IntrebareId);
+                    return Redirect("/Intrebari/Show/" + raspuns.IntrebareId);
                 }
                 else
                 {

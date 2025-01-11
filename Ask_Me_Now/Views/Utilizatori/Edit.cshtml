@@ -1,6 +1,6 @@
 ﻿@model Ask_Me_Now.Models.Utilizator
 
-<form asp-controller="Utilizatori" asp-action="Edit" method="post" asp-route-id="@Model.Id">
+<form asp-controller="Utilizatori" asp-action="Edit" method="post" asp-route-id="@Model.Id" enctype="multipart/form-data">
 
     <i class="bi bi-person"></i>
     <p>Identificare utilizator: @Model.UserName</p>
@@ -34,6 +34,11 @@
     <label asp-for="PhoneNumber">Numar telefon</label>
     <br />
     <input asp-for="PhoneNumber" class="form-control" />
+    <br />
+    
+    <label asp-for="PozaProfil">Poza de profil</label>
+    <br />
+    <input type="file" asp-for="PozaProfil" class="form-control" />
     <br />
 
     @if(User.IsInRole("Admin"))

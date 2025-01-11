@@ -91,6 +91,8 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Descrierea ta")]
             [MaxLength(200, ErrorMessage = "Profilul nu poate sa contina o descriere mai lunga de 200 de caractere!")]
             public string Descriere { get; set; }
+            public IFormFile PozaProfil { get; set; }
+            public string PozaProfilUrl { get; set; }
 
         }
 
@@ -126,7 +128,8 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
                 PhoneNumber = phoneNumber,
                 Nume = nume,
                 Prenume= prenume,
-                Descriere = descriere
+                Descriere = descriere,
+                PozaProfilUrl = user.PozaProfil
             };
 
             UserRoles = roluriString;
@@ -156,6 +159,27 @@ namespace Ask_Me_Now.Areas.Identity.Pages.Account.Manage
             {
                 await LoadAsync(user);
                 return Page();
+            }
+
+            //poza modificata
+            if (Input.PozaProfil != null && Input.PozaProfil.Length > 0)
+            {
+                var fileName = Path.GetFileName(Input.PozaProfil.FileName);  
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Input.PozaProfil.CopyToAsync(stream);
+                }
+
+                user.PozaProfil =  "/images/" + fileName;
+                db.Users.Update(user);
+                await db.SaveChangesAsync();
             }
 
             //nr tel modificat
