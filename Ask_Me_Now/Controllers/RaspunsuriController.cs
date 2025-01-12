@@ -129,29 +129,27 @@ namespace ArticlesApp.Controllers
             var raspuns = db.Raspunsuri.Find(id);
             if (raspuns == null)
             {
-                TempData["message"] = "Răspunsul nu a fost găsit.";
+                TempData["message"] = "Raspunsul nu a fost gasit.";
                 TempData["alert"] = "alert-danger";
                 return RedirectToAction("Index", "Intrebari");
             }
 
             var userId = _userManager.GetUserId(User);
 
-            // Verificam daca utilizatorul a dat deja like sau dislike
             var existingInteraction = db.UtilizatorInteractiune
                 .FirstOrDefault(ui => ui.UserId == userId && ui.RaspunsId == id);
 
             if (existingInteraction != null)
             {
-                // Dacă există o interacțiune anterioară, o actualizăm
+                // Actualizare interactiune anterioara (daca exista)
                 if (existingInteraction.Liked)
                 {
-                    TempData["message"] = "Ai dat deja like acestui răspuns.";
+                    TempData["message"] = "Ai dat deja like acestui raspuns.";
                     TempData["alert"] = "alert-warning";
                     return RedirectToAction("Show", "Intrebari", new { id = raspuns.IntrebareId });
                 }
                 else
                 {
-                    // Dacă era dislike, actualizăm la like
                     raspuns.Dislikes--;
                     raspuns.Likes++;
                     existingInteraction.Liked = true;
@@ -159,7 +157,7 @@ namespace ArticlesApp.Controllers
             }
             else
             {
-                // Dacă nu există, adăugăm o nouă interacțiune
+                //Adaugare interactiune daca nu exista deja
                 db.UtilizatorInteractiune.Add(new UtilizatorInteractiune
                 {
                     UserId = userId,
@@ -190,13 +188,11 @@ namespace ArticlesApp.Controllers
 
             var userId = _userManager.GetUserId(User);
 
-            // Verificam daca utilizatorul a dat deja like sau dislike
             var existingInteraction = db.UtilizatorInteractiune
                 .FirstOrDefault(ui => ui.UserId == userId && ui.RaspunsId == id);
 
             if (existingInteraction != null)
             {
-                // Daca exista o interactiune anterioara, o actualizam
                 if (!existingInteraction.Liked)
                 {
                     TempData["message"] = "Ai dat deja dislike acestui raspuns.";
@@ -205,7 +201,6 @@ namespace ArticlesApp.Controllers
                 }
                 else
                 {
-                    // Daca era like, actualizăm la dislike
                     raspuns.Likes--;
                     raspuns.Dislikes++;
                     existingInteraction.Liked = false;
@@ -213,7 +208,6 @@ namespace ArticlesApp.Controllers
             }
             else
             {
-                // Daca nu exista, adaugam o noua interactiune
                 db.UtilizatorInteractiune.Add(new UtilizatorInteractiune
                 {
                     UserId = userId,

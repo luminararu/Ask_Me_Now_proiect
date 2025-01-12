@@ -75,13 +75,13 @@ namespace Ask_Me_Now.Controllers
             ViewBag.UserRole = _roleManager.Roles
                                               .Where(r => roleNames.Contains(r.Name))
                                               .Select(r => r.Id)
-                                              .First(); // Selectam 1 singur rol
+                                              .First(); // Selectam 1 rol
 
             return View(user);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(string id, Utilizator newData, [FromForm] string newRole, [FromForm] IFormFile PozaProfil)
+        public async Task<ActionResult> Edit(string id, Utilizator newData, [FromForm] string newRole, [FromForm] IFormFile? PozaProfil)
         {
             Utilizator user = db.Users.Find(id);
 
@@ -107,8 +107,12 @@ namespace Ask_Me_Now.Controllers
                         await PozaProfil.CopyToAsync(stream);
                     }
 
-                    // Salvează calea fișierului în baza de date
+                    // salvare cale fisier in baza de date
                     user.PozaProfil = "/images/" + fileName;
+                }
+                else
+                {
+                    user.PozaProfil = user.PozaProfil;
                 }
                 // Cautam toate rolurile din baza de date
                 var roles = db.Roles.ToList();

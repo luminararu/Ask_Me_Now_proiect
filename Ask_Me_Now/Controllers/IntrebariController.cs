@@ -79,13 +79,9 @@ namespace Ask_Me_Now.Controllers
 
                 }
 
-
-
-
-
             ViewBag.SearchString = search;
 
-            // Sortarea răspunsurilor în funcție de criteriul specificat
+            // Sortarea raspunsurilor 
             switch (sortOrder.ToLower())
             {
                 case "popularity":
